@@ -3,17 +3,13 @@ package com.gammagamma.lib.infiniteviewpager;
 import android.content.Context;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 
 public class InfiniteViewPager extends ViewPager {
-    
-    private static final String TAG = InfiniteViewPager.class.getSimpleName();
     
     private OnPageChangeListener externalOnPageChangeListener = null;
     private static PageChangeListener pageChangeListener = null;
@@ -43,11 +39,10 @@ public class InfiniteViewPager extends ViewPager {
         return this.externalOnPageChangeListener;
     }
     
-    private static Pair<Integer, ArrayList<Serializable>> cyclePagerFragments( ArrayList<Serializable> items, final int position ) {
+    private static Pair<Integer, ArrayList<Serializable>> cyclePagerFragments(
+        ArrayList<Serializable> items, final int position ) {
     
         final int lastPosition = items.size() - 1;
-    
-        Log.d( TAG, "cyclePagerFragments @" + position + "/" + lastPosition + " before " + TextUtils.join( ", ", items ) );
         
         if ( position == lastPosition - 1 ) {
             items.add( items.remove( 0 ) );
@@ -101,8 +96,6 @@ public class InfiniteViewPager extends ViewPager {
             if ( items.size() > 2 ) {
                 
                 final Pair<Integer, ArrayList<Serializable>> cycleResult = cyclePagerFragments( items, position );
-    
-                Log.d( TAG, "cyclePagerFragments after " + TextUtils.join( ", ", cycleResult.second ) );
                 
                 if ( cycleResult.first != 0 ) {
                     
@@ -121,12 +114,15 @@ public class InfiniteViewPager extends ViewPager {
         }
     
         @Override
-        public void onPageScrollStateChanged(int state) {
+        public void onPageScrollStateChanged( int state ) {
+            
             final OnPageChangeListener externalOnPageChangeListener =
                 viewPager.getExternalOnPageChangeListener();
-            if (externalOnPageChangeListener != null) {
-                externalOnPageChangeListener.onPageScrollStateChanged(state);
+            
+            if ( externalOnPageChangeListener != null ) {
+                externalOnPageChangeListener.onPageScrollStateChanged( state );
             }
+            
         }
         
     }

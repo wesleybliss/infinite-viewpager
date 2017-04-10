@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class InfiniteViewPagerAdapter<C> extends FragmentStatePagerAdapter {
     
-    private static final String TAG = InfiniteViewPagerAdapter.class.getSimpleName();
-    
     private final Class<C> fragmentClass;
     private final String bundleKey;
     private ArrayList<Serializable> items;
