@@ -35,7 +35,6 @@ public class InfiniteViewPagerAdapter<C> extends FragmentStatePagerAdapter {
         
         if ( items == null || items.size() < 1 ) return new Fragment();
         
-        //Fragment fragment = new Fragment();
         try {
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             Bundle bundle = new Bundle();

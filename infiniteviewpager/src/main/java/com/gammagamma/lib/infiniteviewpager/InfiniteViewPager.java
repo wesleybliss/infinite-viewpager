@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -42,43 +43,18 @@ public class InfiniteViewPager extends ViewPager {
         return this.externalOnPageChangeListener;
     }
     
-    /*private static int cyclePagerFragments( List<String> items, final int position ) {
-    
-        Log.d( TAG, "cyclePagerFragments before " + TextUtils.join( ", ", items ) );
-        
-        final int lastPosition = items.size() - 1;
-        
-        if ( position == lastPosition ) {
-            
-            items.add( items.remove( 0 ) );
-            return -1;
-            
-        }
-        else if ( position == 0 ) {
-            
-            items.add( 0, items.remove( lastPosition ) );
-            return 1;
-            
-        }
-        
-        return 0;
-        
-    }*/
-    
-    private static Pair<Integer, ArrayList<String>> cyclePagerFragments( ArrayList<String> items, final int position ) {
+    private static Pair<Integer, ArrayList<Serializable>> cyclePagerFragments( ArrayList<Serializable> items, final int position ) {
     
         final int lastPosition = items.size() - 1;
     
         Log.d( TAG, "cyclePagerFragments @" + position + "/" + lastPosition + " before " + TextUtils.join( ", ", items ) );
         
         if ( position == lastPosition - 1 ) {
-            Log.d( TAG, "cyclePagerFragments ADD TO END" );
             items.add( items.remove( 0 ) );
             return new Pair<>( -1, items );
             
         }
         else if ( position == 1 ) {
-            Log.d( TAG, "cyclePagerFragments ADD TO START" );
             items.add( 0, items.remove( lastPosition ) );
             return new Pair<>( 1, items );
             
@@ -119,33 +95,12 @@ public class InfiniteViewPager extends ViewPager {
                 externalOnPageChangeListener.onPageSelected( position );
             }
         
-            InfiniteViewPagerAdapter adapter = (InfiniteViewPagerAdapter) viewPager.getAdapter();
-            /*List<Fragment> pagerFragments = adapter.getPagerFragments();
-            // Ensure that cycling only occurs if there are 3 or more fragments.
-            if (pagerFragments.size() > 2) {
-                final int cycleResult = cyclePagerFragments(pagerFragments, position);
-                if (cycleResult != 0) {
-                    adapter.setPagerFragments(pagerFragments);
-                    adapter.notifyDataSetChanged();
-                
-                    // Turn off the actual and external OnPageChangeListeners, so that
-                    // this function does not unnecessarily get called again when
-                    // setting the current item.
-                    viewPager.setOnPageChangeListener(null);
-                    viewPager.setActualOnPageChangeListener(null);
-                    viewPager.setCurrentItem(position + cycleResult, false);
-                    viewPager.setOnPageChangeListener(externalOnPageChangeListener);
-                    viewPager.setActualOnPageChangeListener(this);
-                }
-            }*/
-            
-            
-            
-            ArrayList<String> items = adapter.getItems();
+            InfiniteViewPagerAdapter<?> adapter = (InfiniteViewPagerAdapter) viewPager.getAdapter();
+            ArrayList<Serializable> items = adapter.getItems();
             
             if ( items.size() > 2 ) {
                 
-                final Pair<Integer, ArrayList<String>> cycleResult = cyclePagerFragments( items, position );
+                final Pair<Integer, ArrayList<Serializable>> cycleResult = cyclePagerFragments( items, position );
     
                 Log.d( TAG, "cyclePagerFragments after " + TextUtils.join( ", ", cycleResult.second ) );
                 
