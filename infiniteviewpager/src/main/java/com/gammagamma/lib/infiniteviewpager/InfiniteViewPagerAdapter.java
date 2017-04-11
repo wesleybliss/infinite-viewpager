@@ -29,14 +29,15 @@ public class InfiniteViewPagerAdapter<C> extends FragmentStatePagerAdapter {
     }
     
     @Override
-    public Fragment getItem( int position) {
+    public Fragment getItem( int position ) {
         
-        if ( items == null || items.size() < 1 ) return new Fragment();
+        if ( items == null || items.size() < 3 )
+            throw new RuntimeException( "There must be at least 3 items in the InfiniteViewPager" );
         
         try {
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             Bundle bundle = new Bundle();
-            bundle.putSerializable( bundleKey, items.get( position ) );
+            bundle.putSerializable( bundleKey, items.get( position % items.size() ) );
             fragment.setArguments( bundle );
             return fragment;
         }
@@ -48,12 +49,7 @@ public class InfiniteViewPagerAdapter<C> extends FragmentStatePagerAdapter {
     
     @Override
     public int getCount() {
-        return ( items != null) ? items.size() : 0;
-    }
-    
-    @Override
-    public int getItemPosition( Object object ) {
-        return POSITION_NONE;
+        return Math.round( Integer.MAX_VALUE / 2 );
     }
     
 }

@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         
         final int pagePreview = 100;
         
+        viewPager.setPageTransformer( false, new CoverTransformer( 0.3f, 0f, 0f, 0f ) );
+        
         viewPager.setClipToPadding( false );
         viewPager.setPadding( pagePreview, 0, pagePreview, 0 );
         viewPager.setPageMargin( 20 );
